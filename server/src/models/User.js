@@ -4,29 +4,29 @@ const bcrypt = require('bcryptjs');
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
-    trim: true
-  },
-  email: {
-    type: String,
-    required: true,
+    required: [true, '用户名是必需的'],
     unique: true,
-    trim: true,
-    lowercase: true
+    trim: true
   },
   password: {
     type: String,
-    required: true,
-    minlength: 6
+    required: [true, '密码是必需的'],
+    minlength: [6, '密码至少需要6个字符']
   },
   role: {
     type: String,
-    enum: ['parent', 'tutor', 'admin'],
-    required: true
+    enum: {
+      values: ['parent', 'tutor', 'admin'],
+      message: '角色必须是 parent、tutor 或 admin'
+    },
+    required: [true, '角色是必需的']
   },
   status: {
     type: String,
-    enum: ['active', 'pending', 'banned'],
+    enum: {
+      values: ['active', 'pending', 'banned'],
+      message: '状态必须是 active、pending 或 banned'
+    },
     default: 'pending'
   }
 }, {
