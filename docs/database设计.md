@@ -27,7 +27,19 @@
     default: 'active'
   },              // 状态：active/inactive/banned
   createdAt: Date,             // 创建时间
-  updatedAt: Date              // 更新时间
+  updatedAt: Date,             // 更新时间
+  lastLoginAt: Date,           // 最后登录时间
+  verifiedAt: Date,            // 认证时间
+  preferences: {               // 用户偏好设置
+    language: String,          // 语言偏好
+    notification: {            // 通知设置
+      email: Boolean,
+      sms: Boolean,
+      push: Boolean
+    },
+    displayMode: String,       // 显示模式：light/dark
+    timezone: String          // 时区
+  }
 }
 
 索引：
@@ -69,10 +81,20 @@
     subjects: [{                // 教授科目
       name: String,             // 科目名称
       grades: [String],         // 适用年级
-      experience: Number        // 该科目教龄
+      experience: Number,       // 该科目教龄
+      successCases: [{          // 成功案例
+        description: String,    // 案例描述
+        improvement: Number,    // 提升程度
+        duration: Number,       // 教学时长
+        feedback: String       // 家长反馈
+      }]
     }]
   },
-
+  availabilityStatus: {         // 当前接单状态
+    type: String,
+    enum: ['available', 'busy', 'offline'],
+    default: 'available'
+  },
   schedule: {
     workdays: [{              // 工作日
       day: {
@@ -200,13 +222,13 @@
     imageUrl: String,         // 证书图片
     verificationStatus: String // 验证状态：pending/verified/rejected
   }],
-  ratings: {                   // 评分统计
+  ratings: {                   // 多维度评分
     overall: Number,           // 总体评分
-    professional: Number,      // 专业能力
-    attitude: Number,          // 教学态度
+    teachingQuality: Number,   // 教学质量
+    attitude: Number,          // 服务态度
     punctuality: Number,       // 准时程度
     communication: Number,     // 沟通能力
-    ratingCount: Number       // 评价数量
+    effectiveness: Number      // 教学效果
   },
   statistics: {               // 统计数据
     totalStudents: Number,    // 总学生数
@@ -648,7 +670,7 @@
 
 **contracts（教学契约集合）**
 
-````json
+```json
 {
   _id: ObjectId,                // 契约ID
   parentId: {                   // 家长ID
@@ -705,7 +727,7 @@
 }
 
 #### favorites（收藏集合）
-```javascript
+```json
 {
   _id: ObjectId,                // 收藏ID
   userId: {                     // 收藏用户ID
@@ -741,7 +763,7 @@
   status: 1,                    // 状态索引
   createdAt: -1                 // 创建时间降序索引
 }
-````
+```
 
 **ratings（评价集合）**
 
@@ -942,3 +964,47 @@ ratingStats（评分统计集合）
 ### **post_reviews（帖子审核记录集合）**
 
 ### **teacher_verifications（教师认证审核记录集合）**
+
+```
+
+// 新增教学反馈表
+feedback_records {
+  _id: ObjectId,
+  orderId: ObjectId,            // 关联订单ID
+  teacherId: ObjectId,          // 教师ID
+  parentId: ObjectId,           // 家长ID
+  studentProgress: {            // 学生进度
+    subject: String,            // 科目
+    topics: [String],           // 知识点
+    mastery: Number            // 掌握程度
+  },
+  nextGoals: [String],          // 下一步目标
+  createdAt: Date              // 创建时间
+}
+
+// 新增智能推荐记录表
+recommendation_logs {
+  _id: ObjectId,
+  userId: ObjectId,             // 用户ID
+  recommendationType: String,    // 推荐类型
+  recommendedItems: [{          // 推荐项目
+    itemId: ObjectId,          // 项目ID
+    score: Number,             // 推荐分数
+    features: Object           // 特征值
+  }],
+  userAction: String,           // 用户行为
+  timestamp: Date              // 时间戳
+}
+
+索引：
+{
+  "feedback_records.orderId": 1,
+  "feedback_records.teacherId": 1,
+  "feedback_records.parentId": 1,
+  "feedback_records.createdAt": -1
+}
+
+{
+  "recommendation_logs.userId": 1,
+  "recommendation_logs.timestamp": -1
+}
