@@ -85,9 +85,9 @@ const selectedRole = ref('');
 const isVisible = ref(false);
 
 const roleUrls = {
-  admin: 'http://localhost:3003',
-  parent: 'http://localhost:3001',
-  tutor: 'http://localhost:3002'
+  admin: 'http://localhost:5003',
+  parent: 'http://localhost:5001',
+  tutor: 'http://localhost:5002',
 };
 
 const selectRole = (role) => {

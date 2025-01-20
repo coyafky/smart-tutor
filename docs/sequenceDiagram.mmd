@@ -1,0 +1,11 @@
+sequenceDiagram
+    participant Teacher as 教师
+    participant System as 系统
+    participant Parent as 家长
+    
+    Teacher->>System: 查看帖子详情
+    Teacher->>System: 收藏/应聘帖子
+    System->>Parent: 发送应聘通知
+    Parent->>System: 查看应聘教师
+    Parent->>System: 接受/拒绝应聘
+    System->>Teacher: 通知应聘结果
