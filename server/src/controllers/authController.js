@@ -8,9 +8,9 @@ const register = async (req, res) => {
 
     // 验证请求体
     if (!name || !password || !role) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         message: '请提供所有必需的字段',
-        required: ['name', 'password', 'role']
+        required: ['name', 'password', 'role'],
       });
     }
 
@@ -25,7 +25,7 @@ const register = async (req, res) => {
       name,
       password,
       role,
-      status: role === 'admin' ? 'active' : 'pending' // 管理员直接激活，其他需要审核
+      status: role === 'admin' ? 'active' : 'pending', // 管理员直接激活，其他需要审核
     });
 
     await user.save();
@@ -43,16 +43,16 @@ const register = async (req, res) => {
         id: user._id,
         name: user.name,
         role: user.role,
-        status: user.status
+        status: user.status,
       },
-      token
+      token,
     });
   } catch (error) {
     console.error('注册错误:', error);
     if (error.name === 'ValidationError') {
       return res.status(400).json({
         message: '数据验证失败',
-        errors: Object.values(error.errors).map(err => err.message)
+        errors: Object.values(error.errors).map((err) => err.message),
       });
     }
     res.status(500).json({ message: '注册失败', error: error.message });
@@ -66,9 +66,9 @@ const login = async (req, res) => {
 
     // 验证请求体
     if (!name || !password) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         message: '请提供用户名和密码',
-        required: ['name', 'password']
+        required: ['name', 'password'],
       });
     }
 
@@ -102,9 +102,9 @@ const login = async (req, res) => {
         id: user._id,
         name: user.name,
         role: user.role,
-        status: user.status
+        status: user.status,
       },
-      token
+      token,
     });
   } catch (error) {
     console.error('登录错误:', error);
@@ -122,7 +122,7 @@ const getProfile = async (req, res) => {
       role: user.role,
       status: user.status,
       createdAt: user.createdAt,
-      updatedAt: user.updatedAt
+      updatedAt: user.updatedAt,
     });
   } catch (error) {
     console.error('获取用户信息错误:', error);
@@ -137,9 +137,9 @@ const updateUserStatus = async (req, res) => {
     const { status } = req.body;
 
     if (!status || !['active', 'pending', 'banned'].includes(status)) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         message: '无效的状态值',
-        allowedValues: ['active', 'pending', 'banned']
+        allowedValues: ['active', 'pending', 'banned'],
       });
     }
 
@@ -157,8 +157,8 @@ const updateUserStatus = async (req, res) => {
         id: user._id,
         name: user.name,
         role: user.role,
-        status: user.status
-      }
+        status: user.status,
+      },
     });
   } catch (error) {
     console.error('更新用户状态错误:', error);
@@ -171,13 +171,13 @@ const getAllUsers = async (req, res) => {
   try {
     const users = await User.find({}, '-password');
     res.json({
-      users: users.map(user => ({
+      users: users.map((user) => ({
         id: user._id,
         name: user.name,
         role: user.role,
         status: user.status,
-        createdAt: user.createdAt
-      }))
+        createdAt: user.createdAt,
+      })),
     });
   } catch (error) {
     console.error('获取用户列表错误:', error);
@@ -190,5 +190,5 @@ module.exports = {
   login,
   getProfile,
   updateUserStatus,
-  getAllUsers
+  getAllUsers,
 };
