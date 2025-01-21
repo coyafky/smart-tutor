@@ -4,21 +4,25 @@
 
 ```
 smart-tutor/
-├── frontend/
-│   └── FirstPage/          # Vue 3 前端项目
-│       ├── src/
-│       │   ├── views/
-│       │   │   ├── HomeView.vue    # 首页
-│       │   │   └── LoginView.vue   # 登录页
-│       │   └── components/
-│       │       └── FeaturesSection.vue  # 特点展示组件
-└── backend/                # Express 后端项目
+├── frontend/               # 前端项目
+│   ├── adminPage/         # 管理员界面
+│   ├── landingPage/       # 落地页
+│   ├── parentPage/        # 家长界面
+│   └── tutorPage/         # 教师界面
+└── server/                # Express 后端项目
     ├── src/
     │   ├── app.js         # 应用入口文件
     │   ├── models/        # 数据模型
+    │   │   ├── user/      # 用户相关模型
+    │   │   ├── teaching/  # 教学相关模型
+    │   │   ├── matching/  # 匹配系统模型
+    │   │   ├── rating/    # 评价相关模型
+    │   │   ├── feedback/  # 反馈相关模型
+    │   │   └── review/    # 审核验证模型
     │   ├── controllers/   # 控制器
     │   ├── routes/        # 路由
-    │   └── middleware/    # 中间件
+    │   ├── middleware/    # 中间件
+    │   └── utils/         # 工具函数
     ├── package.json
     └── .env
 ```
@@ -27,31 +31,50 @@ smart-tutor/
 
 ### 前端部分
 
-1. **首页 (HomeView.vue)**
-   - [x] 全屏视频背景
-   - [x] 渐变遮罩效果
-   - [x] 滚动按钮动画
-   - [x] 特点展示部分
-   - [x] 响应式布局
-
-2. **组件抽离**
-   - [x] 特点展示部分抽离为独立组件 (FeaturesSection.vue)
-   - [x] 添加图片和按钮
-   - [x] 统一的滚动效果
+1. **项目结构优化**
+   - [x] 分离不同用户角色的界面
+   - [x] 管理员界面 (adminPage)
+   - [x] 落地页 (landingPage)
+   - [x] 家长界面 (parentPage)
+   - [x] 教师界面 (tutorPage)
 
 ### 后端部分
 
 1. **项目配置**
    - [x] Express 服务器设置
    - [x] MongoDB 连接配置
-   - [x] WebSocket (Socket.io) 集成
    - [x] 环境变量配置
+   - [x] 项目结构优化
 
 2. **数据模型**
-   - [x] 用户模型 (User)
-   - [x] 帖子模型 (Post)
-   - [x] 反馈模型 (Feedback)
-   - [x] 消息模型 (Message)
+   - [x] 用户管理模块
+     - [x] 用户模型 (User)
+     - [x] 教师档案 (TeacherProfile)
+     - [x] 家长档案 (ParentProfile)
+     - [x] 管理员模型 (Admin)
+     - [x] 收藏模型 (Favorite)
+   
+   - [x] 教学管理模块
+     - [x] 合同模型 (Contract)
+     - [x] 课程安排 (Schedule)
+     - [x] 教学反馈 (FeedbackRecord)
+   
+   - [x] 匹配系统模块
+     - [x] 需求帖子 (Post)
+     - [x] 申请记录 (Application)
+     - [x] 推荐日志 (RecommendationLog)
+   
+   - [x] 评价模块
+     - [x] 评价记录 (Rating)
+     - [x] 评价申诉 (RatingAppeal)
+     - [x] 评分统计 (RatingStat)
+   
+   - [x] 反馈模块
+     - [x] 用户反馈 (Feedback)
+   
+   - [x] 审核验证模块
+     - [x] 教师认证 (TeacherVerification)
+     - [x] 帖子审核 (PostReview)
 
 3. **认证系统**
    - [x] JWT 认证中间件
@@ -61,19 +84,47 @@ smart-tutor/
 
 ## 进行中的功能
 
-1. **后端 API**
-   - [ ] 帖子管理 API
-   - [ ] 消息系统 API
-   - [ ] 反馈系统 API
-   - [ ] 地理位置服务 API
-   - [ ] 文件上传功能
+1. **后端 API 开发**
+   - [ ] 用户管理 API
+     - [ ] 用户信息更新
+     - [ ] 角色管理
+     - [ ] 收藏管理
+   
+   - [ ] 教学管理 API
+     - [ ] 合同管理
+     - [ ] 课程安排
+     - [ ] 教学反馈
+   
+   - [ ] 匹配系统 API
+     - [ ] 帖子管理
+     - [ ] 申请处理
+     - [ ] 智能推荐
+   
+   - [ ] 评价系统 API
+     - [ ] 评价管理
+     - [ ] 申诉处理
+     - [ ] 统计分析
+   
+   - [ ] 审核系统 API
+     - [ ] 教师认证
+     - [ ] 内容审核
+     - [ ] 反馈处理
 
-2. **前端页面**
-   - [ ] 登录/注册页面
-   - [ ] 用户个人中心
-   - [ ] 帖子发布页面
-   - [ ] 帖子列表页面
-   - [ ] 消息交流页面
+2. **前端开发**
+   - [ ] 管理员界面
+     - [ ] 用户管理
+     - [ ] 内容审核
+     - [ ] 数据统计
+   
+   - [ ] 教师界面
+     - [ ] 个人资料
+     - [ ] 课程管理
+     - [ ] 评价管理
+   
+   - [ ] 家长界面
+     - [ ] 需求发布
+     - [ ] 教师选择
+     - [ ] 课程跟踪
 
 ## 待开发功能
 
@@ -85,68 +136,38 @@ smart-tutor/
 2. **DeepSeek AI 集成**
    - [ ] 学习汇总生成
    - [ ] 智能推荐功能
+   - [ ] 内容审核辅助
 
-3. **实时通信**
-   - [ ] 消息推送
-   - [ ] 在线状态管理
-   - [ ] 实时通知
+3. **实时通信系统**
+   - [ ] WebSocket 集成
+   - [ ] 即时消息
+   - [ ] 状态同步
+   - [ ] 通知推送
 
-4. **文件管理**
-   - [ ] 图片上传
-   - [ ] 文件存储
-   - [ ] 文件预览
+4. **文件管理系统**
+   - [ ] 文件上传
+   - [ ] 云存储集成
+   - [ ] 文件处理
+   - [ ] 访问控制
 
 ## 下一步计划
 
-1. 实现帖子管理相关的 API：
-   - 帖子的 CRUD 操作
-   - 帖子搜索和筛选
-   - 帖子申请和审核
+1. 完成基础 API 开发：
+   - 用户管理 API
+   - 教学管理 API
+   - 匹配系统 API
 
-2. 开发消息系统：
-   - 实时消息发送和接收
-   - 消息历史记录
-   - 未读消息提醒
+2. 开发前端核心功能：
+   - 用户认证流程
+   - 个人中心
+   - 课程管理
 
-3. 完善用户界面：
-   - 实现登录注册页面
-   - 开发个人中心页面
-   - 设计帖子相关页面
+3. 集成第三方服务：
+   - 高德地图
+   - DeepSeek AI
+   - 云存储
 
-## 技术栈
-
-### 前端
-- Vue 3
-- Vue Router
-- Vuex/Pinia
-- TailwindCSS
-- Socket.io-client
-
-### 后端
-- Node.js
-- Express
-- MongoDB
-- Mongoose
-- Socket.io
-- JWT
-- bcryptjs
-
-### 第三方服务
-- 高德地图 API
-- DeepSeek API
-
-## 注意事项
-
-1. 运行项目前需要：
-   - 配置 MongoDB 数据库
-   - 设置环境变量
-   - 安装项目依赖
-
-2. API 密钥配置：
-   - 高德地图 API 密钥
-   - DeepSeek API 密钥
-
-3. 开发规范：
-   - 遵循 ESLint 规则
-   - 使用 TypeScript 类型检查
-   - 保持代码注释完整
+4. 实现实时通信：
+   - WebSocket 服务
+   - 消息系统
+   - 通知系统
